@@ -1,0 +1,120 @@
+*{
+	padding: 0;
+	margin: 0;
+	border: none;
+}
+
+body{
+	font-size: 16px;
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+#app{
+	width: 100%;
+}
+
+/* gameBox Part */
+#gameBorder{
+	width: 30rem;
+	height: 30rem;
+	margin: 0 auto;
+	margin-top: 2rem;
+	border: #000000 0.125rem solid;
+}
+
+#blackBlock{
+	box-sizing: border-box;
+	user-select: none;
+	position: absolute;
+	width: 6rem;
+	height: 6rem;
+	top: 9rem;
+	left: calc(50% - 15rem);
+	font-size: 3rem;
+	text-align: center;
+	line-height: 6rem;
+	background-color: #000000;
+	color: yellow;
+	transition: all ease-in-out .5s;
+}
+
+/* gameContentBox Part */
+#gameContentBox{
+	width: 100%;
+	height: 7rem;
+	background-color: lightblue;
+}
+
+#playerStaus span{
+	display: block;
+	position: absolute;
+	right: 0;
+	height: 7rem;
+	width: 12rem;
+	margin-right: .8rem;
+	font-family: "等线";
+	font-size: 1.5rem;
+	text-align: center;
+	line-height: 7rem;
+}
+
+/* scoreStaus Part */
+#scoreStaus{
+	width: 24rem;
+	height: 7rem;
+	margin-left: calc(50% - 12rem);
+	position: absolute;
+	font-size: 2rem;
+	font-family: "等线";
+	line-height: 7rem;
+	text-align: center;
+	color: #006600;
+}
+
+.scoreNum{
+	color: darkred;
+}
+
+/* controlBox Part */
+#controlBox{
+	position: absolute;
+	top: 20rem;
+	right: 10rem;
+}
+
+/* Btn Part */
+.Btn{
+	display: block;
+	width: 8rem;
+	height: 3rem;
+	font-size: 1.2rem;
+	font-family: "等线";
+	font-weight: bolder;
+	padding: .4rem;
+	margin: .5rem;
+	border: #000000 0.0625rem solid;
+	border-radius: .5rem;
+	transition: all ease-in-out .5s;
+	outline: none;
+}
+
+.Btn:hover{
+	background-color: #000FFF;
+	color: indianred;
+}
+
+/* inputPlayerName Part */
+#playerName{
+	position: absolute;
+	outline: none;
+	font-size: 1.5rem;
+	padding-left: .8rem;
+	padding-bottom: .5rem;
+	text-align: center;
+	top: -5rem;
+	border-bottom: #5C2699 0.1875rem solid;
+	right: -4.8rem;
+}

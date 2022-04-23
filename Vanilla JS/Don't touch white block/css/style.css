@@ -1,0 +1,89 @@
+* {
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+html,
+body {
+    font-size: 12px;
+}
+
+#app {
+    width: 40rem;
+    height: 50rem;
+    margin: 3rem auto;
+    padding: 2.5rem;
+}
+
+.gameWindow {
+    width: 35rem;
+    height: 35rem;
+    margin: 0 auto;
+    border: cadetblue 1px solid;
+    border-radius: .25rem;
+}
+
+.operate {
+    position: relative;
+    width: 30rem;
+    height: auto;
+    margin: 0 auto;
+    padding: .5rem;
+    padding-top: 1.2rem;
+}
+
+#mode {
+    position: absolute;
+    right: 0;
+}
+
+.gameObject {
+    display: inline-block;
+    width: 7rem;
+    height: 7rem;
+    text-align: center;
+    line-height: 7rem;
+    font-size: 2rem;
+    color: #FFF;
+    background-color: #000;
+}
+
+.scoreShow {
+    width: 100%;
+    height: auto;
+    padding: 1.2rem 0;
+    text-align: center;
+    font-size: 4rem;
+    background-color: #fff;
+}
+
+/* button 样式 */
+button {
+    outline: none;
+    font-size: 1.2rem;
+    background-color: #eee;
+    padding: 5px 12px;
+    border: #333 1px solid;
+    transition: all ease-in-out .1s;
+}
+
+button:hover {
+    background-color: #ddd;
+    border: #333 1px solid;
+}
+
+button:active {
+    background-color: #ccc;
+    padding: 5px 13px;
+    border: #ccc 1px solid;
+    color: #666;
+}
+
+/* select 样式 */
+select {
+    outline: none;
+    padding: 6px 12px;
+    color: #eee;
+    background-color: #333;
+}

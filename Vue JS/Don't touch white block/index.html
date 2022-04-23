@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+	</head>
+	<body>
+		<div id="app">
+			<div id="gameContentBox">
+				<div id="scoreStaus">
+					<span id="score">得分：<span class="scoreNum">{{ score }}</span></span>
+				</div>
+				<div id="playerStaus">
+					<span><strong> Hello , {{ player == "" ? "player" : player }}&nbsp;! </strong></span>
+				</div>
+			</div>
+			<div id="gameBox">
+				<div id="gameBorder" @click="deathFunc"></div>
+				<div id="blackBlock" v-show="isShow" @click="addScore"> <b>:&nbsp;)</b> </div>
+			</div>
+			<div id="controlBox">
+				<div id="controlSwitchBtn">
+					<input type="text" name="playerName" placeholder="Input your name here" id="playerName" value="" v-model="player" />
+					<button class="Btn" id="modelBtn" @click="modelStart"> {{ model }} </button>
+					<button class="Btn" @click="clearFunc"> {{ pause }} </button>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/vue.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/myVue.js" type="text/javascript" charset="utf-8"></script>
+</html>	

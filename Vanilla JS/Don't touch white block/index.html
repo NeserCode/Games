@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Don't touch white block</title>
+        <link rel="stylesheet" href="./css/style.css">
+    </head>
+
+    <body>
+        <div id="app">
+            <div class="gameWindow" onclick="GameOver()">
+                <span class="gameObject" onclick="getScore()">:-)</span>
+            </div>
+            <div class="operate">
+                <button class="startBtn" onclick="GameMain()">开始游戏</button>
+                <button class="pauseBtn" onclick="pause()" disabled>暂停</button>
+                <select name="mode" onchange="changeMode()" id="mode">
+                    <option value="1">走马灯模式</option>
+                    <option value="2">打地鼠模式</option>
+                </select>
+            </div>
+            <div class="scoreShow"></div>
+        </div>
+        <script src="./js/vanilla.js"></script>
+    </body>
+
+</html>
