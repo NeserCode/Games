@@ -15,7 +15,7 @@ new Vue({
 		isPause: true,
 	},
 	methods: {
-		modelStart: function() {
+		modelStart: function () {
 			clearInterval(this.modelSetInterval[1]);
 
 			if (this.modelCode == 1 || this.modelCode == -1) {
@@ -52,7 +52,7 @@ new Vue({
 					}
 
 					this.clickable = true;
-					
+
 				}, 500)
 
 				this.model = "走马灯模式";
@@ -70,7 +70,7 @@ new Vue({
 					document.querySelector('#blackBlock').style.top = `calc(9rem + ` + (heightR * 24) + `rem )`;
 
 					this.clickable = true;
-					
+
 				}, 800)
 
 				this.model = "打地鼠模式";
@@ -80,7 +80,7 @@ new Vue({
 				window.location = "index.html";
 			}
 		},
-		clearFunc: function() {
+		clearFunc: function () {
 			if (this.modelCode == -2) {
 				alert("游戏已经结束了哦，再来一局！");
 			} else if (!this.isPause && this.modelCode != -1) {
@@ -98,7 +98,7 @@ new Vue({
 
 			this.isPause = !this.isPause;
 		},
-		addScore: function() {
+		addScore: function () {
 			if (this.clickable) {
 				this.score++;
 			}
@@ -112,7 +112,7 @@ new Vue({
 
 			this.clickable = false;
 		},
-		deathFunc: function() {
+		deathFunc: function () {
 
 			if (this.modelCode != -1 && this.clickable) {
 				for (var i = 0; i < this.modelSetInterval.length; i++) {
