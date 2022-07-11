@@ -7,9 +7,20 @@ class GameBox extends React.Component {
             isGameStarted: false,
             isGameOver: false,
         }
+
+        this.handleClickWhite = this.handleClickWhite.bind(this)
     }
+
+    handleClickWhite() {
+        if (this.state.isGameStarted) {
+            this.setState({
+                isGameOver: true
+            })
+        }
+    }
+
     render() {
-        return (<div className="gameBox">
+        return (<div className="gameBox" onClick={this.handleClickWhite}>
             <GameBody
                 isGameStarted={this.state.isGameStarted}
                 isGameOver={this.state.isGameOver}
@@ -50,6 +61,7 @@ class GameBody extends React.Component {
                     ...prev.timer,
                 }
             }))
+        console.log(this.props.isGameStarted);
     }
 
     render() {
@@ -58,5 +70,7 @@ class GameBody extends React.Component {
         </div>)
     }
 }
+
+
 
 root.render(<GameBox />);
