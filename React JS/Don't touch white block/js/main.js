@@ -10,7 +10,10 @@ class GameBox extends React.Component {
     }
     render() {
         return (<div className="gameBox">
-            <GameBody />
+            <GameBody
+                isGameStarted={this.state.isGameStarted}
+                isGameOver={this.state.isGameOver}
+            />
         </div>)
     }
 }
@@ -21,6 +24,7 @@ class GameBody extends React.Component {
         this.state = {
             gameStatus: true,
             isActiveScore: false,
+            score: 0,
             timer: {
                 emoji: null,
                 bodyRuntime: null
