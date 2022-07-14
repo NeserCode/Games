@@ -71,3 +71,27 @@ body{
     top: -1rem;
     transform: translateY(-100%);
 }
+
+.gameBtns > span{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0 .6rem;
+}
+
+button{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: .6rem 1.4rem;
+    margin-right: .5rem;
+    border-radius: .3rem;
+
+    user-select: none;
+    transition: all ease-in-out .2s;
+}
+
+button:hover{
+    background-color: #666;
+}

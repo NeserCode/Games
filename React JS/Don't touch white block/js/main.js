@@ -9,34 +9,43 @@ class GameBox extends React.Component {
             isGameOver: false,
         }
 
+        this.gameBody = React.createRef()
+
         this.handleClickWhite = this.handleClickWhite.bind(this)
         this.handleGameStart = this.handleGameStart.bind(this)
         this.handleGameEnd = this.handleGameEnd.bind(this)
+        this.handleSetScore = this.handleSetScore.bind(this)
     }
 
     handleClickWhite() {
-        if (this.state.isGameStarted) {
+        if (this.state.isGameStarted && !this.state.isGamePaused) {
             this.setState({
                 isGameOver: true
             })
         }
-        console.log(this.state);
     }
 
     handleGameStart(e) {
         e.stopPropagation()
 
-        if (this.state.isGameStarted && !this.state.isGameOver)
+        if (this.state.isGameStarted && !this.state.isGameOver) {
             this.setState((prev) => ({
                 isGamePaused: !prev.isGamePaused
             }))
-        else if ((this.state.isGameOver || !this.state.isGameStarted) && !this.state.isGamePaused)
+            // 运转逻辑:暂停游戏->恢复游戏
+            if (this.state.isGamePaused) this.gameBody.current.resumeRander()
+            else this.gameBody.current.pauseRander()
+        }
+        else if ((this.state.isGameOver || !this.state.isGameStarted) && !this.state.isGamePaused) {
             this.setState({
                 isGameStarted: true,
                 isGamePaused: false,
                 isGameOver: false,
             })
-        console.log(this.state);
+
+            // 运转逻辑:开始游戏
+            this.gameBody.current.startRender()
+        }
     }
 
     handleGameEnd(e) {
@@ -49,12 +58,21 @@ class GameBox extends React.Component {
         })
     }
 
+    handleSetScore() {
+        if (!this.state.isGamePaused) {
+            this.gameBody.current.setScore(0)
+        }
+
+
+    }
+
     render() {
         return (<div className="gameBox" onClick={this.handleClickWhite}>
             <GameBody
                 isGameStarted={this.state.isGameStarted}
                 isGamePaused={this.state.isGamePaused}
                 isGameOver={this.state.isGameOver}
+                ref={this.gameBody}
             />
             <GameBtns
                 isGameStarted={this.state.isGameStarted}
@@ -62,6 +80,7 @@ class GameBox extends React.Component {
                 isGameOver={this.state.isGameOver}
                 gameStartFn={this.handleGameStart}
                 gameEndFn={this.handleGameEnd}
+                setScoreFn={this.handleSetScore}
             />
         </div>)
     }
@@ -80,8 +99,15 @@ class GameBody extends React.Component {
         }
 
         this.handleClickBlack = this.handleClickBlack.bind(this)
+        this.setScore = this.setScore.bind(this)
         this.Score = this.Score.bind(this)
     }
+
+    startRender() { console.log('start render'); }
+
+    pauseRander() { console.log('pause render'); }
+
+    resumeRander() { console.log('resume render'); }
 
     getComputedEmoji() {
         return !this.props.isGameOver ? this.state.isActiveScore ? ': o' : ': )' : ': ('
@@ -90,10 +116,14 @@ class GameBody extends React.Component {
     handleClickBlack(e) {
         e.stopPropagation()
 
-        if (!this.props.isGameOver)
+        if (!this.props.isGameOver) {
             this.setState((prev) => ({
                 isActiveScore: !prev.isActiveScore
-                , score: this.props.isGameStarted ? prev.score + 1 : 0
+                , score: (!this.props.isGamePaused && this.props.isGameStarted && !this.props.isGameOver)
+                    ? prev.score + 1
+                    : this.props.isGameOver
+                        ? 0
+                        : prev.score
                 , timer: {
                     emoji: setTimeout(() => {
                         if (this.state.isActiveScore)
@@ -102,12 +132,20 @@ class GameBody extends React.Component {
                     ...prev.timer,
                 }
             }))
-        console.log(this.props.isGameOver);
+        }
+    }
+
+    setScore(newVal) {
+        if (this.props.isGameStarted) {
+            this.setState({
+                score: newVal
+            })
+        }
     }
 
     Score() {
         return (
-            <span className="gameScore">{this.state.score}</span>
+            <span className="gameScore"> {this.state.score} </span>
         )
     }
 
@@ -122,19 +160,33 @@ class GameBody extends React.Component {
 class GameBtns extends React.Component {
     constructor(props) {
         super(props)
+
+        this.handleGameEnd = this.handleGameEnd.bind(this)
     }
 
     getComputedGameString() {
         return this.props.isGameStarted ? this.props.isGamePaused ? 'Return' : 'Pause' : 'Start'
     }
 
+    handleGameEnd(e) {
+        this.props.setScoreFn(0)
+        this.props.gameEndFn(e)
+    }
+
     render() {
         return (
             <div className="gameBtns">
-                <button onClick={this.props.gameStartFn}>{this.getComputedGameString()}</button>
-                {this.props.isGameStarted
-                    ? <button onClick={this.props.gameEndFn}>End Game</button>
-                    : null
+                {
+                    this.props.isGameOver
+                        ? <span>Game over</span>
+                        : <button onClick={this.props.gameStartFn}>{this.getComputedGameString()}</button>
+                }
+                {
+                    this.props.isGameStarted
+                        ? this.props.isGameOver
+                            ? <button onClick={this.handleGameEnd}> Replay </button>
+                            : <button onClick={this.handleGameEnd}> End Game </button>
+                        : null
                 }
             </div>
         )
