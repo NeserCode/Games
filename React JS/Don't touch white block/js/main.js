@@ -92,6 +92,10 @@ class GameBody extends React.Component {
         this.state = {
             isActiveScore: false,
             score: 0,
+            position: {
+                direction: 'left',
+                step: 1
+            },
             timer: {
                 emoji: null,
                 bodyRuntime: null
@@ -104,17 +108,102 @@ class GameBody extends React.Component {
         this.startRender = this.startRender.bind(this)
         this.pauseRander = this.pauseRander.bind(this)
         this.resumeRander = this.resumeRander.bind(this)
+        this.mainBodyProcess = this.mainBodyProcess.bind(this)
     }
 
     componentDidMount() {
         this._body = document.querySelector('.gameBody')
     }
 
-    startRender() { console.log('start render'); }
+    startRender() {
+        this.mainBodyProcess()
+    }
 
-    pauseRander() { console.log('pause render', this._body); }
+    pauseRander() {
+        clearInterval(this.state.timer.bodyRuntime)
+    }
 
-    resumeRander() { console.log('resume render', this._body); }
+    resumeRander() { this.mainBodyProcess() }
+
+    mainBodyProcess() {
+        this.setState({
+            timer: {
+                bodyRuntime: setInterval(() => {
+                    const { direction, step } = this.state.position
+                    if (direction == 'left' && step <= 3) {
+                        this.setState({
+                            position: {
+                                direction,
+                                step: step + 1
+                            }
+                        })
+                    } else if (direction == 'left' && step === 4) {
+                        this.setState({
+                            position: {
+                                direction: 'top',
+                                step: 1
+                            }
+                        })
+                    } else if (direction == 'top' && step <= 3) {
+                        this.setState({
+                            position: {
+                                direction,
+                                step: step + 1
+                            }
+                        })
+                    } else if (direction == 'top' && step === 4) {
+                        this.setState({
+                            position: {
+                                direction: 'right',
+                                step: 1
+                            }
+                        })
+                    } else if (direction == 'right' && step <= 3) {
+                        this.setState({
+                            position: {
+                                direction,
+                                step: step + 1
+                            }
+                        })
+                    } else if (direction == 'right' && step === 4) {
+                        this.setState({
+                            position: {
+                                direction: 'bottom',
+                                step: 1
+                            }
+                        })
+                    } else if (direction == 'bottom' && step <= 3) {
+                        this.setState({
+                            position: {
+                                direction,
+                                step: step + 1
+                            }
+                        })
+                    } else if (direction == 'bottom' && step === 4) {
+                        this.setState({
+                            position: {
+                                direction: 'left',
+                                step: 1
+                            }
+                        })
+                    }
+                    console.log(this.state.position);
+                    this.mainBodyProcessRender(this.state.position.direction, this.state.position.step)
+                }, 800)
+            }
+        })
+    }
+
+    mainBodyProcessRender(direction, step) {
+        if (direction === 'left')
+            this._body.style.transform = `translateX(${step * 100}%) translateY(0)`
+        else if (direction === 'top')
+            this._body.style.transform = `translateX(400%) translateY(${step * 100}%)`
+        else if (direction === 'right')
+            this._body.style.transform = `translateX(${(4 - step) * 100}%) translateY(400%)`
+        else if (direction === 'bottom')
+            this._body.style.transform = `translateX(0) translateY(${(4 - step) * 100}%)`
+    }
 
     getComputedEmoji() {
         return !this.props.isGameOver ? this.state.isActiveScore ? ': o' : ': )' : ': ('

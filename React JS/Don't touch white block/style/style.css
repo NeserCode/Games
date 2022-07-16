@@ -47,6 +47,7 @@ body {
 	align-items: center;
 	background-color: #000;
 	color: aliceblue;
+	transform: translateX(0) translateY(0);
 
 	user-select: none;
 }
