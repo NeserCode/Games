@@ -101,13 +101,20 @@ class GameBody extends React.Component {
         this.handleClickBlack = this.handleClickBlack.bind(this)
         this.setScore = this.setScore.bind(this)
         this.Score = this.Score.bind(this)
+        this.startRender = this.startRender.bind(this)
+        this.pauseRander = this.pauseRander.bind(this)
+        this.resumeRander = this.resumeRander.bind(this)
+    }
+
+    componentDidMount() {
+        this._body = document.querySelector('.gameBody')
     }
 
     startRender() { console.log('start render'); }
 
-    pauseRander() { console.log('pause render'); }
+    pauseRander() { console.log('pause render', this._body); }
 
-    resumeRander() { console.log('resume render'); }
+    resumeRander() { console.log('resume render', this._body); }
 
     getComputedEmoji() {
         return !this.props.isGameOver ? this.state.isActiveScore ? ': o' : ': )' : ': ('
@@ -178,14 +185,14 @@ class GameBtns extends React.Component {
             <div className="gameBtns">
                 {
                     this.props.isGameOver
-                        ? <span>Game over</span>
-                        : <button onClick={this.props.gameStartFn}>{this.getComputedGameString()}</button>
+                        ? <span> Game over </span>
+                        : <button type="button" onClick={this.props.gameStartFn}>{this.getComputedGameString()}</button>
                 }
                 {
                     this.props.isGameStarted
                         ? this.props.isGameOver
-                            ? <button onClick={this.handleGameEnd}> Replay </button>
-                            : <button onClick={this.handleGameEnd}> End Game </button>
+                            ? <button type="button" onClick={this.handleGameEnd}> Replay </button>
+                            : <button type="button" onClick={this.handleGameEnd}> End Game </button>
                         : null
                 }
             </div>
