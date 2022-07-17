@@ -15,10 +15,13 @@ class GameBox extends React.Component {
         this.handleGameStart = this.handleGameStart.bind(this)
         this.handleGameEnd = this.handleGameEnd.bind(this)
         this.handleSetScore = this.handleSetScore.bind(this)
+        this.getRealScore = this.getRealScore.bind(this)
+        this.Score = this.Score.bind(this)
     }
 
     handleClickWhite() {
         if (this.state.isGameStarted && !this.state.isGamePaused) {
+            if (!this.state.isGameOver) this.gameBody.current.resetRender()
             this.setState({
                 isGameOver: true
             })
@@ -44,6 +47,7 @@ class GameBox extends React.Component {
             })
 
             // 运转逻辑:开始游戏
+            this.gameBody.current.resetRender()
             this.gameBody.current.startRender()
         }
     }
@@ -56,14 +60,24 @@ class GameBox extends React.Component {
             isGamePaused: false,
             isGameOver: false,
         })
+
+        this.gameBody.current.pauseRander()
     }
 
     handleSetScore() {
         if (!this.state.isGamePaused) {
             this.gameBody.current.setScore(0)
         }
+    }
 
+    getRealScore() {
+        return this.gameBody.current ? this.gameBody.current.state.score : 0
+    }
 
+    Score() {
+        return (
+            <span className="gameScore"> {this.getRealScore()} </span>
+        )
     }
 
     render() {
@@ -74,6 +88,7 @@ class GameBox extends React.Component {
                 isGameOver={this.state.isGameOver}
                 ref={this.gameBody}
             />
+            <this.Score />
             <GameBtns
                 isGameStarted={this.state.isGameStarted}
                 isGamePaused={this.state.isGamePaused}
@@ -94,7 +109,7 @@ class GameBody extends React.Component {
             score: 0,
             position: {
                 direction: 'left',
-                step: 1
+                step: 0
             },
             timer: {
                 emoji: null,
@@ -104,10 +119,10 @@ class GameBody extends React.Component {
 
         this.handleClickBlack = this.handleClickBlack.bind(this)
         this.setScore = this.setScore.bind(this)
-        this.Score = this.Score.bind(this)
         this.startRender = this.startRender.bind(this)
         this.pauseRander = this.pauseRander.bind(this)
         this.resumeRander = this.resumeRander.bind(this)
+        this.resetRender = this.resetRender.bind(this)
         this.mainBodyProcess = this.mainBodyProcess.bind(this)
     }
 
@@ -187,7 +202,6 @@ class GameBody extends React.Component {
                             }
                         })
                     }
-                    console.log(this.state.position);
                     this.mainBodyProcessRender(this.state.position.direction, this.state.position.step)
                 }, 800)
             }
@@ -203,6 +217,17 @@ class GameBody extends React.Component {
             this._body.style.transform = `translateX(${(4 - step) * 100}%) translateY(400%)`
         else if (direction === 'bottom')
             this._body.style.transform = `translateX(0) translateY(${(4 - step) * 100}%)`
+    }
+
+    resetRender() {
+        if (this.state.timer.bodyRuntime) clearInterval(this.state.timer.bodyRuntime)
+        this.setState({
+            position: {
+                direction: 'left',
+                step: 0
+            }
+        })
+        this.mainBodyProcessRender(this.state.position.direction, this.state.position.step)
     }
 
     getComputedEmoji() {
@@ -239,16 +264,9 @@ class GameBody extends React.Component {
         }
     }
 
-    Score() {
-        return (
-            <span className="gameScore"> {this.state.score} </span>
-        )
-    }
-
     render() {
         return (<div className="gameBody" onClick={this.handleClickBlack}>
             <span>{this.getComputedEmoji()}</span>
-            <this.Score />
         </div>)
     }
 }

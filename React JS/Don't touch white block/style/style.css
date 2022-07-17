@@ -54,8 +54,8 @@ body {
 
 .gameScore {
 	position: absolute;
-	top: 250%;
-	left: 250%;
+	top: 50%;
+	left: 50%;
 
 	display: inline-flex;
 	justify-content: center;
